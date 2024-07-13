@@ -1,0 +1,11 @@
+boto3
+fastapi
+httptools
+kafka-python
+langchain
+pdfminer.six
+pip-chill
+python-dotenv
+uvloop
+watchfiles
+websockets

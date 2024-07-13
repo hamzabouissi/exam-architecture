@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: configure-bucket-notification
+spec:
+  template:
+    spec:
+      containers:
+        - name: minio-client
+          image: minio/mc
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              mc config host add dc-minio http://minions-hl.minio-tenant:9000 minio minio123;
+              mc admin config get dc-minio notify_kafka;
+              mc admin config set dc-minio notify_kafka:primary \
+                brokers="kafka-cluster-kafka-bootstrap.strimzi.svc:9092" \
+                topic="exam-generator-topic" \
+                tls_skip_verify=true \
+                enabled=on;
+              mc admin service restart dc-minio;
+              echo "finish restart"; sleep 10s;
+              mc event add --event "put" dc-minio/exams arn:minio:sqs::primary:kafka ;
+              echo "setup event bridging";
+      restartPolicy: OnFailure

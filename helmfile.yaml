@@ -1,0 +1,36 @@
+repositories:
+  - name: minio-operator
+    url: https://operator.min.io
+
+releases:
+  # - name: minio-operator
+  #   chart: minio-operator/operator
+  #   namespace: minio-operator
+  # - name: minio-tenant
+  #   chart: minio-operator/tenant
+  #   namespace: minio-tenant
+  #   values:
+  #     - ./minio-tenant-values.yaml
+  #   needs:
+  #     - minio-operator
+  #   hooks:
+  #     - events: ["postsync"]
+  #       command: "kubectl"
+  #       args:
+  #         - "apply"
+  #         - "-f"
+  #         - "./jobs.yaml"
+  - name: exam-generation-frontend
+    chart: ./frontend/exam-generation-app/charts
+    
+  - name: exam-taking-frontend
+    chart: ./frontend/exam-taking-app/charts
+  
+  - name: exam-generation-fn
+    chart: ./frontend/ExamGenFn/charts
+  
+  - name: exam-taking-fn
+    chart: ./frontend/ExamTakeFn/charts
+  
+  - name: scylladb-trigger-fn
+    chart: ./frontend/ScyllaDbTriggerFn/charts

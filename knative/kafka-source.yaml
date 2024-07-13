@@ -1,0 +1,16 @@
+apiVersion: sources.knative.dev/v1beta1
+kind: KafkaSource
+metadata:
+  name: kafka-source
+spec:
+  consumerGroup: kafka-group
+  bootstrapServers:
+    - kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+  topics:
+    - exam-generator-topic
+  consumers: 2
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: event-display
