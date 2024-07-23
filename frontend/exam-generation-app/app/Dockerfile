@@ -11,7 +11,7 @@ COPY . /app/
 RUN pip3 install --no-cache-dir streamlit boto3 flask
 
 # Expose the ports for Streamlit and Flask apps
-EXPOSE 8501 5000
+EXPOSE 8501 80
 
 # Start Streamlit and Flask
 

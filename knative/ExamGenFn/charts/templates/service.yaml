@@ -14,13 +14,17 @@ spec:
             - containerPort: 80
           env:
             - name: BUCKET_NAME
-              value: {{ .Values.env.normal.BUCKET_NAME }}
+              value: exams
+            - name: KAFKA_BOOTSTRAP_SERVER
+              value: kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+            - name: TOPIC_ARN
+              value: email-topic
             - name: AWS_ACCESS_KEY_ID
-              value: {{ .Values.env.secret.AWS_ACCESS_KEY_ID }}
+              value: minio
             - name: AWS_SECRET_ACCESS_KEY
-              value: {{ .Values.env.secret.AWS_SECRET_ACCESS_KEY }}
+              value: minio123
             - name: AWS_ENDPOINT_URL_S3
-              value: {{ .Values.env.secret.AWS_ENDPOINT_URL_S3 }}
+              value: http://minions-hl.minio-tenant:9000
           
           readinessProbe:
             httpGet:

@@ -5,6 +5,8 @@ from streamlit.web.server.websocket_headers import _get_websocket_headers
 import base64
 import json
 import boto3
+from pymongo import MongoClient
+
 from botocore.exceptions import ClientError
 st.set_page_config(page_title="Take Quiz", page_icon="📝")
 # URL of the API Gateway
@@ -25,22 +27,22 @@ if 'show_results' not in st.session_state:
     st.session_state['show_results'] = False  # Flag to display the results page
 
 headers = _get_websocket_headers()
-token = headers.get('X-Amzn-Oidc-Data')
-parts = token.split('.')
-if len(parts) > 1:
-    payload = parts[1]
+# token = headers.get('X-Amzn-Oidc-Data')
+# parts = token.split('.')
+# if len(parts) > 1:
+#     payload = parts[1]
 
-    # Decode the payload
-    decoded_bytes = base64.urlsafe_b64decode(payload + '==')  # Padding just in case
-    decoded_str = decoded_bytes.decode('utf-8')
-    decoded_payload = json.loads(decoded_str)
+#     # Decode the payload
+#     decoded_bytes = base64.urlsafe_b64decode(payload + '==')  # Padding just in case
+#     decoded_str = decoded_bytes.decode('utf-8')
+#     decoded_payload = json.loads(decoded_str)
 
-    # Extract the email
-    email = decoded_payload.get('email', 'Email not found')
-    print(email)
-else:
-    print("Invalid token")
-
+#     # Extract the email
+#     email = decoded_payload.get('email', 'Email not found')
+#     print(email)
+# else:
+#     print("Invalid token")
+email = "rojla@gmail.com"
 st.write(f"You're Taking the Exam as: {email}")
 
 
@@ -61,7 +63,7 @@ def load_questions_from_s3(file_name):
     response = requests.get(f'{API_GATEWAY_URL}?object_name={file_name}', timeout=timeout)
     response.raise_for_status()  # Raises HTTPError for bad responses (4xx and 5xx)
     questions = response.json()
-    return questions
+    return questions['body']
 
 # Function to get the list of files in the questions_bank directory in S3 through the API Gateway
 def get_files_in_questions_bank():
@@ -69,13 +71,13 @@ def get_files_in_questions_bank():
     response = requests.get(API_GATEWAY_URL, timeout=timeout)
     response.raise_for_status()  # Raises HTTPError for bad responses (4xx and 5xx)
     files = response.json()
-    return files
+    return files['body']
 
 # Start page: File selection
 def start_page():
     col1, col2 = st.columns([4, 1])  # Create two columns
     with col1:  # With first column
-        st.title("Test your knowledge📝")
+        st.title("Show your knowledge📝")
     #add your own logo
     #with col2:  # With second column
     #    st.image("logo.png",
@@ -97,6 +99,7 @@ def start_page():
 
 # Quiz page: Display one question at a time with the user's previous selection
 def quiz_page():
+    print(st.session_state['questions'])
     if st.session_state['questions']:
         current_question_data = st.session_state['questions'][st.session_state['current_question']]
         st.title(f"Question {st.session_state['current_question'] + 1}/{len(st.session_state['questions'])}")
@@ -184,10 +187,14 @@ def results_page():
 def save_quiz_results(data):
 
     # Initialize DynamoDB table
-    table_name = os.getenv('DYNAMODB_TABLE_NAME')
-    dynamodb = boto3.resource('dynamodb')
-    table = dynamodb.Table(table_name)
-    table.put_item(Item=data)
+    table_name = os.getenv('MONGO_TABLE_NAME')
+    client = MongoClient(os.getenv("MONGO_URI"))
+    db = client['exams']
+    collection = db[table_name]
+    collection.insert_one(data)
+    # dynamodb = boto3.resource('dynamodb')
+    # table = dynamodb.Table(table_name)
+    # table.put_item(Item=data)
 
 def main():
     if st.session_state['show_results']:

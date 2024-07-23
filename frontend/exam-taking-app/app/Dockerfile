@@ -7,11 +7,14 @@ WORKDIR /app
 # Copy the Streamlit app and Flask app into the container at /app
 COPY . /app/
 
-# Install Streamlit, Flask, and any other needed packages
-RUN pip3 install --no-cache-dir streamlit boto3 flask
+# 
+COPY ./requirements.txt /app/requirements.txt
+
+# 
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Expose the ports for Streamlit and Flask apps
-EXPOSE 8501 5000
+EXPOSE 8501 80
 
 # Start Streamlit and Flask
 

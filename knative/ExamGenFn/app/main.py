@@ -1,6 +1,7 @@
 import io
 from utils.helper_files import HelperFiles
-from utils.helper_bedrock import HelperBedrock
+
+# from utils.helper_bedrock import HelperBedrock
 import json
 import boto3
 import urllib.parse
@@ -8,7 +9,7 @@ import os
 from kafka import KafkaProducer
 
 # sns = boto3.client("sns")
-producer = KafkaProducer(bootstrap_servers=os.environ['KAFKA_BOOTSTRAP_SERVER'])
+producer = KafkaProducer(bootstrap_servers=os.environ["KAFKA_BOOTSTRAP_SERVER"])
 s3 = boto3.client("s3")
 # bedrock = HelperBedrock()
 
@@ -119,9 +120,21 @@ def main(event, context):
     # response = bedrock.get_response(response, template_formatted)
     # json_exam = file_helper.convert_to_json_in_memory(response)
     output = io.StringIO()
-    
+
     # Write the JSON data to the in-memory stream
-    json.dump([{'exam':'1'}], output)
+    questions = [
+        {
+            "question": "What is the colour of the car in the book?",
+            "options": ["Blue", "Green", "Yellow", "Grey"],
+            "correct_answer": "Yellow",
+        },
+        {
+            "question": "Where Tunisia is located?",
+            "options": ["South America", "Asia", "Africa", "Oceania"],
+            "correct_answer": "Africa",
+        },
+    ]
+    json.dump(questions, output)
 
     # To ensure the content is in the buffer, seek the pointer back to the start of the stream
     output.seek(0)
@@ -140,5 +153,3 @@ def main(event, context):
         "statusCode": 200,
         "body": json.dumps("file saved to file_path!"),
     }
-
-

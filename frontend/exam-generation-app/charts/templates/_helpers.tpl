@@ -61,12 +61,8 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-{{/*
-Append secrets to deployment
-*/}}
 
-
-{{- define "helpers.list-env-variables"}}
+{{- define "helpers.list-secret-variables"}}
 {{- range $key, $val := .Values.env.secret }}
 - name: {{ $key }}
   valueFrom:
@@ -75,3 +71,4 @@ Append secrets to deployment
       key: {{ $key }}
 {{- end}}
 {{- end }}
+

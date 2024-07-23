@@ -8,7 +8,7 @@ image:
   repository: gitea.enkinineveh.space/gitea_admin/exam_generator_front_end
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v1"
+  tag: "v3"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -25,7 +25,8 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: {}
+podAnnotations: 
+  reloader.stakater.com/search: "true"
 podLabels: {}
 
 podSecurityContext: {}
@@ -50,7 +51,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: exam-generator.enkinineveh.space
+    - host: exam-generate-frontend.enkinineveh.space
       paths:
         - path: /
           pathType: ImplementationSpecific
@@ -107,13 +108,14 @@ tolerations: []
 affinity: {}
 
 secret:
-  name: app-env-var-secret
+  name:  app-env-secret
 
 env:
+  normal:
+     STREAMLIT_BROWSER_SERVER_ADDRESS: "exam-generation-frontend.enkinineveh.space"
   secret:
     BUCKET_NAME: "exams"
     AWS_ACCESS_KEY_ID: "minio"
     AWS_SECRET_ACCESS_KEY: "minio123"
     AWS_ENDPOINT_URL_S3: "http://minions-hl.minio-tenant:9000"
-
-
+    

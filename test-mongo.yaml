@@ -1,0 +1,15 @@
+apiVersion: psmdb.percona.com/v1
+kind: PerconaServerMongoDB
+metadata:
+  name: my-cluster-name
+  namespace: mongo
+spec:
+  image: percona/percona-server-mongodb:4.4.6-8
+  replsets:
+    - name: rs0
+      size: 3
+      volumeSpec:
+        persistentVolumeClaim:
+          resources:
+            requests:
+              storage: 1Gi

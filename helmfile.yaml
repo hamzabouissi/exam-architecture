@@ -1,7 +1,6 @@
-repositories:
-  - name: minio-operator
-    url: https://operator.min.io
-
+# repositories:
+#   - name: minio-operator
+#     url: https://operator.min.io
 releases:
   # - name: minio-operator
   #   chart: minio-operator/operator
@@ -20,17 +19,23 @@ releases:
   #         - "apply"
   #         - "-f"
   #         - "./jobs.yaml"
+
+  # - name: kafka
+  #   chart: ./kafka/charts
+  
   - name: exam-generation-frontend
     chart: ./frontend/exam-generation-app/charts
-    
+    namespace: "exam-frontend"
+
   - name: exam-taking-frontend
     chart: ./frontend/exam-taking-app/charts
-  
+    namespace: "exam-frontend"
+
   - name: exam-generation-fn
-    chart: ./frontend/ExamGenFn/charts
-  
+    chart: ./knative/ExamGenFn/charts
+
   - name: exam-taking-fn
-    chart: ./frontend/ExamTakeFn/charts
-  
-  - name: scylladb-trigger-fn
-    chart: ./frontend/ScyllaDbTriggerFn/charts
+    chart: ./knative/ExamTakeFn/charts
+
+  # - name: scylladb-trigger-fn
+  #   chart: ./frontend/ScyllaDbTriggerFn/charts

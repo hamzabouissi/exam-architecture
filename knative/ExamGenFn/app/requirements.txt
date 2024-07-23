@@ -3,6 +3,7 @@ fastapi
 httptools
 kafka-python
 langchain
+langchain-community
 pdfminer.six
 pip-chill
 python-dotenv

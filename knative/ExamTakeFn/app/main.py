@@ -1,8 +1,10 @@
 import json
+import logging
 import boto3
 import os
 # Initialize S3 client outside of handler
 s3_client = boto3.client('s3')
+LOG = logging.getLogger(__name__)
 
 def get_object(bucket_name, object_key):
     """
@@ -55,8 +57,8 @@ def lambda_handler(event, context):
     #bucket = 'exam-gen'  # specify your bucket name
     bucket = os.environ['BUCKET_NAME']
     prefix = 'questions_bank/'  # specify your folder if any
-
     params = event.get('queryStringParameters')
+    LOG.info(params)
     if params:
         object_name = params.get('object_name')
 
@@ -71,7 +73,7 @@ def lambda_handler(event, context):
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'  # for CORS
                 },
-                'body': get_response  # This is the raw string, not re-encoded as JSON
+                'body': json.loads(get_response)  # This is the raw string, not re-encoded as JSON
             }
 
     # If there's no object_name in the parameters, list the objects
@@ -83,5 +85,5 @@ def lambda_handler(event, context):
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*'  # for CORS
         },
-        'body': json.dumps(list_response)  # List of files, excluding the prefix
+        'body': list_response  # List of files, excluding the prefix
     }

@@ -1,3 +1,4 @@
+import logging
 import boto3
 from botocore.exceptions import NoCredentialsError
 from pdfminer.high_level import extract_text
@@ -6,6 +7,8 @@ import io
 
 import json
 import csv
+
+LOG = logging.getLogger(__name__)
 
 class HelperFiles:
     def __init__(self, bucket_name=None, file_key=None, file_object=None):
@@ -18,6 +21,10 @@ class HelperFiles:
         self.bucket_name = bucket_name
         self.file_key = file_key
         self.file_object = file_object
+
+        LOG.info(self.bucket_name)
+        LOG.info(self.file_key)
+        LOG.info(self.file_object)
 
     def get_pdf_text_local(self):
         """
@@ -59,9 +66,12 @@ class HelperFiles:
         
         :return: Extracted text from the PDF.
         """
+        
         try:
             # Use BytesIO to create a file-like object from the file content
             with BytesIO(self.file_object) as pdf_file:
+
+                LOG.info(pdf_file.read())
                 # Use pdfminer's extract_text function on the file-like object
                 text = extract_text(pdf_file)
             return text

@@ -20,6 +20,6 @@ spec:
                 enabled=on;
               mc admin service restart dc-minio;
               echo "finish restart"; sleep 10s;
-              mc event add --event "put" dc-minio/exams arn:minio:sqs::primary:kafka ;
+              mc event add --event "put" --prefix exams dc-minio/exams arn:minio:sqs::primary:kafka ;
               echo "setup event bridging";
       restartPolicy: OnFailure

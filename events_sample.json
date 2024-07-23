@@ -1,0 +1,56 @@
+{
+    "EventName": "s3:ObjectCreated:Put",
+    "Key": "exams/exams/20210910_Learning_Agreement.pdf",
+    "Records": [
+        {
+            "eventVersion": "2.0",
+            "eventSource": "minio:s3",
+            "awsRegion": "",
+            "eventTime": "2024-07-17T22:44:13.023Z",
+            "eventName": "s3:ObjectCreated:Put",
+            "userIdentity": {
+                "principalId": "minio"
+            },
+            "requestParameters": {
+                "principalId": "minio",
+                "region": "",
+                "sourceIPAddress": "10.244.1.142"
+            },
+            "responseElements": {
+                "x-amz-id-2": "dd9025bab4ad464b049177c95eb6ebf374d3b3fd1af9251148b658df7ac2e3e8",
+                "x-amz-request-id": "17E3217146940AAA",
+                "x-minio-deployment-id": "26e16215-fc3a-408b-9456-36ff481120a2",
+                "x-minio-origin-endpoint": "http://minio.minio-tenant.svc.cluster.local"
+            },
+            "s3": {
+                "s3SchemaVersion": "1.0",
+                "configurationId": "Config",
+                "bucket": {
+                    "name": "exams",
+                    "ownerIdentity": {
+                        "principalId": "minio"
+                    },
+                    "arn": "arn:aws:s3:::exams"
+                },
+                "object": {
+                    "key": "exams%2FBonsApps.pdf",
+                    "size": 87295,
+                    "eTag": "f5a398c44ce33596979fcdd66a86c0f0",
+                    "contentType": "application/pdf",
+                    "userMetadata": {
+                        "X-Amz-Meta-N_mcq": "1",
+                        "X-Amz-Meta-N_mcq_options": "2",
+                        "X-Amz-Meta-N_tfq": "0",
+                        "content-type": "application/pdf"
+                    },
+                    "sequencer": "17E3217146CA9F3C"
+                }
+            },
+            "source": {
+                "host": "10.244.1.142",
+                "port": "",
+                "userAgent": "Boto3/1.34.144 md/Botocore#1.34.144 ua/2.0 os/linux#6.6.28-talos md/arch#x86_64 lang/python#3.9.17 md/pyimpl#CPython cfg/retry-mode#legacy Botocore/1.34.144"
+            }
+        }
+    ]
+}

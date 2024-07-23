@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: gitea.enkinineveh.space/gitea_admin/exam-take-frontend
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v7"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -41,7 +41,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 8501
 
 ingress:
   enabled: false
@@ -109,7 +109,6 @@ affinity: {}
 
 env:
   normal:
-    DYNAMODB_TABLE_NAME: ""
-    API_GATEWAY_URL: ""
-  secret:
-    
+    API_GATEWAY_URL: "http://exam-taking-fn-exam-take-fn.default.svc.cluster.local"
+    MONGO_URI: "mongodb://databaseAdmin:sHWKYbXRalmNExTMiYr@my-cluster-name-rs0.mongo.svc.cluster.local/admin?replicaSet=rs0&ssl=false"
+    MONGO_TABLE_NAME: "score"

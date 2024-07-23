@@ -37,8 +37,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            {{ include "helpers.list-secret-variables" . }}
-            {{ include "helpers.list-env-variables" . }}
+            {{ include "helpers.list-env-variables" . | nindent 12}}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

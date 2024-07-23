@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: gitea.enkinineveh.space/gitea_admin/exam-take-fn
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "v3"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -73,12 +73,12 @@ resources: {}
 
 livenessProbe:
   httpGet:
-    path: /
-    port: http
+    path: /docs
+    port: 80
 readinessProbe:
   httpGet:
-    path: /
-    port: http
+    path: /docs
+    port: 80
 
 autoscaling:
   enabled: false
@@ -105,3 +105,14 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+secret:
+  name: 
+
+env:
+  normal:
+    BUCKET_NAME: "exams"
+  secret:
+    AWS_ACCESS_KEY_ID: "minio"
+    AWS_SECRET_ACCESS_KEY: "minio123"
+    AWS_ENDPOINT_URL_S3: "http://minions-hl.minio-tenant:9000"

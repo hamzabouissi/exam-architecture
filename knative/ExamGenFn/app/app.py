@@ -1,9 +1,10 @@
 from typing import Any, Union
 import logging
+from main import main
 LOG = logging.getLogger(__name__)
 LOG.info("API is starting up")
 
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 
 app = FastAPI()
 
@@ -14,7 +15,8 @@ def health():
     return {"Hello": "World"}
 
 @app.post("/")
-def intercept_event(req:Any):
-    LOG.info(req)
-    print(req)
+async def intercept_event(request:Request):
+    event = await request.json()
+    return main(event,None)
+
     

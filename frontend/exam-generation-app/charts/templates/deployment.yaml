@@ -34,10 +34,10 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
+          env:
+            {{- include "helpers.list-secret-variables" . | indent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          env:
-            {{- include "helpers.list-env-variables" . | indent 6 }}
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

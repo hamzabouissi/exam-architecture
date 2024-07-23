@@ -5,12 +5,13 @@ metadata:
 spec:
   consumerGroup: kafka-group
   bootstrapServers:
-    - kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+    - {{ .Values.env.normal.BOOTSTRAP_SERVER }}
   topics:
-    - exam-generator-topic
+    - {{ .Values.env.normal.TOPIC }}
   consumers: 2
+
   sink:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: exam-gen-fn
+      name: {{ include "charts.fullname" . }}
