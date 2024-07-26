@@ -1,0 +1,22 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
+metadata:
+  name: connect-cluster
+  namespace: strimzi
+  annotations:
+    strimzi.io/use-connector-resources: "true"
+spec:
+  replicas: 1
+  image: gitea.enkinineveh.space/gitea_admin/connect-debezium:v2
+  bootstrapServers: kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+  config:
+    group.id: connect-cluster
+    offset.storage.topic: connect-cluster-offsets
+    config.storage.topic: connect-cluster-configs
+    status.storage.topic: connect-cluster-status
+    
+
+  logging:
+    type: inline
+    loggers:
+      connect.root.logger.level: "INFO"

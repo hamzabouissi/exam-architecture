@@ -7,7 +7,7 @@ spec:
   bootstrapServers:
     - kafka-cluster-kafka-bootstrap.strimzi.svc:9092
   topics:
-    - exam-generator-topic
+    - email-topic.exams.score
   consumers: 2
   sink:
     ref:

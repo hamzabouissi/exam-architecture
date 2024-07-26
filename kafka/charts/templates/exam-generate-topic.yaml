@@ -2,6 +2,7 @@ apiVersion: kafka.strimzi.io/v1beta1
 kind: KafkaTopic
 metadata:
   name: exam-generator-topic
+  namespace: strimzi
   labels:
     strimzi.io/cluster: "kafka-cluster"
 spec:

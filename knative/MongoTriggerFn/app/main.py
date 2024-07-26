@@ -1,14 +1,12 @@
-import boto3
 import json
 import os
-from boto3.dynamodb.types import TypeDeserializer
+from kafka import KafkaProducer
 
-sns_client = boto3.client('sns')
+producer = KafkaProducer(bootstrap_servers=os.environ["KAFKA_BOOTSTRAP_SERVER"])
 
 # Utility function to convert DynamoDB item to regular JSON
-def dynamodb_to_json(dynamodb_item):
-    deserializer = TypeDeserializer()
-    return {k: deserializer.deserialize(v) for k, v in dynamodb_item.items()}
+def mongodb_to_json(mongo_item):
+    pass
 
 def format_score_card(item_json):
     score_card_title = "Exam-Generator - Score Card"
@@ -37,7 +35,7 @@ def format_score_card(item_json):
     return message_body
 
 def lambda_handler(event, context):
-    sns_topic_arn = os.environ['SNS_TOPIC_ARN']
+    topic_arn = os.environ['TOPIC_ARN']
 
     for record in event['Records']:
         # Process both new insertions and updates
@@ -45,20 +43,15 @@ def lambda_handler(event, context):
             image = record['dynamodb'].get('NewImage', {})
 
             # Convert DynamoDB JSON to regular JSON
-            item_json = dynamodb_to_json(image)
+            item_json = mongodb_to_json(image)
 
             # Format the message as a score card
             message = format_score_card(item_json)
 
             try:
-                response = sns_client.publish(
-                    TopicArn=sns_topic_arn,
-                    Message=message,
-                    Subject='Exam-Generator - Score Card'
-                )
-                print("SNS notification sent. Message ID:", response['MessageId'])
+                producer.send(topic_arn, message)
             except Exception as e:
-                print(f"Error sending SNS notification: {e}")
+                print(f"Error sending Kafka notification: {e}")
                 raise
 
     return {

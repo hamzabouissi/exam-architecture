@@ -1,0 +1,15 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnector
+metadata:
+  name: mongodb-source-connector-second
+  namespace: strimzi
+  labels:
+    strimzi.io/cluster: connect-cluster
+spec:
+  class: io.debezium.connector.mongodb.MongoDbConnector
+  tasksMax: 2
+  config:
+    mongodb.connection.string: mongodb://databaseAdmin:sHWKYbXRalmNExTMiYr@my-cluster-name-rs0.mongo.svc.cluster.local/admin?replicaSet=rs0&ssl=false
+    topic.prefix: "email-topic"
+    # database.include.list: "exams"
+    # collection.include.list: "score"

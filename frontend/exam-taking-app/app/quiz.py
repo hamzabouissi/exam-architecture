@@ -192,9 +192,7 @@ def save_quiz_results(data):
     db = client['exams']
     collection = db[table_name]
     collection.insert_one(data)
-    # dynamodb = boto3.resource('dynamodb')
-    # table = dynamodb.Table(table_name)
-    # table.put_item(Item=data)
+   
 
 def main():
     if st.session_state['show_results']:
