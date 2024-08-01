@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: gitea.enkinineveh.space/gitea_admin/post-signup-fn
+  repository: gitea.enkinineveh.space/gitea_admin/email-send-fn
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2"
+  tag: "v5"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -106,10 +106,10 @@ tolerations: []
 
 affinity: {}
 
-
-
 env:
   normal:
+    BOOTSTRAP_SERVER: kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+    MAILGUN_API_KEY: a1325eedf1adc70ed6c0e5c7d8ad0940-afce6020-6018ee45
+    MONGO_TABLE_NAME: subscribers
     MONGO_URI: "mongodb://databaseAdmin:sHWKYbXRalmNExTMiYr@my-cluster-name-rs0.mongo.svc.cluster.local/admin?replicaSet=rs0&ssl=false"
-    MONGO_TABLE_NAME: "subscribers"
-  secret:
+    TOPIC_ARN: email-topic

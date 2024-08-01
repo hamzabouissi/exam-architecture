@@ -1,0 +1,9 @@
+fastapi
+httptools
+kafka-python
+pip-chill
+python-dotenv
+uvloop
+watchfiles
+websockets
+

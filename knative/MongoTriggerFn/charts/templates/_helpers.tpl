@@ -1,3 +1,4 @@
+
 {{/*
 Expand the name of the chart.
 */}}
@@ -62,13 +63,10 @@ Create the name of the service account to use
 {{- end }}
 
 
-{{- define "helpers.list-secret-variables"}}
-{{- range $key, $val := .Values.env.secret }}
-- name: {{ $key }}
-  valueFrom:
-    secretKeyRef:
-      name: exam-generation-secret
-      key: {{ $key }}
+
+{{- define "helpers.list-normal-variables"}}
+{{- range $key, $val := .Values.env.normal }}
+  - name: {{ $key }}
+    value: {{ $val }}
 {{- end}}
 {{- end }}
-

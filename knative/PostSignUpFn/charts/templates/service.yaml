@@ -1,7 +1,7 @@
 apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
-  name: exam-gen-fn
+  name: {{ include "charts.fullname" . }}
   namespace: default
   labels:
     networking.knative.dev/visibility: cluster-local
@@ -9,9 +9,15 @@ spec:
   template:
     spec:
       containers:
-        - image: gitea.enkinineveh.space/gitea_admin/exam-gen-fn:v1
-          env:
-            - name: TOPIC_ARN
-              value: "email-topic"
-            - name: KAFKA_BOOTSTRAP_SERVER
-              value: "kafka-cluster-kafka-bootstrap.strimzi.svc:9092"
+        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          ports:
+            - containerPort: 80
+          env: {{ include "helpers.list-variables" . | nindent 12 }}
+
+          readinessProbe:
+            httpGet:
+              port: 80 # you can also check on a different port than the containerPort (traffic-port)
+              path: "/docs"
+          livenessProbe:
+            tcpSocket:
+              port: 80

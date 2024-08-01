@@ -5,11 +5,10 @@ metadata:
 spec:
   consumerGroup: kafka-group
   bootstrapServers:
-    - {{ .Values.env.normal.BOOTSTRAP_SERVER }}
+    - {{ .Values.env.normal.KAFKA_BOOTSTRAP_SERVER }}
   topics:
-    - {{ .Values.env.normal.TOPIC }}
+    - {{ .Values.env.normal.SOURCE_TOPIC_ARN }}
   consumers: 2
-
   sink:
     ref:
       apiVersion: serving.knative.dev/v1

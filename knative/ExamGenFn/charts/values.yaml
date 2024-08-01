@@ -8,7 +8,7 @@ image:
   repository: gitea.enkinineveh.space/gitea_admin/exam-gen-fn
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v3"
+  tag: "v4"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -108,13 +108,14 @@ tolerations: []
 affinity: {}
 
 secret:
-  name: app-env-secret
+  name: exam-gen-fn-secret
 
 env:
   normal:
     BUCKET_NAME: "exams"
-    BOOTSTRAP_SERVER: "kafka-cluster-kafka-bootstrap.strimzi.svc:9092"
+    KAFKA_BOOTSTRAP_SERVER: "kafka-cluster-kafka-bootstrap.strimzi.svc:9092"
     TOPIC_ARN: email-topic
+    SOURCE_TOPIC_ARN: exam-generator-topic
   secret:
     BUCKET_NAME: "exams"
     AWS_ACCESS_KEY_ID: "minio"

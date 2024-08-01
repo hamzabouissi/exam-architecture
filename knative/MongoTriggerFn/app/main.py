@@ -6,7 +6,7 @@ producer = KafkaProducer(bootstrap_servers=os.environ["KAFKA_BOOTSTRAP_SERVER"])
 
 # Utility function to convert DynamoDB item to regular JSON
 def mongodb_to_json(mongo_item):
-    pass
+    return json.loads(mongo_item)
 
 def format_score_card(item_json):
     score_card_title = "Exam-Generator - Score Card"
@@ -35,24 +35,21 @@ def format_score_card(item_json):
     return message_body
 
 def lambda_handler(event, context):
-    topic_arn = os.environ['TOPIC_ARN']
+    topic_arn = os.environ['EMAIL_TOPIC_ARN']
 
-    for record in event['Records']:
-        # Process both new insertions and updates
-        if record['eventName'] in ['INSERT', 'MODIFY']:
-            image = record['dynamodb'].get('NewImage', {})
+    image = event['payload']['after']
 
-            # Convert DynamoDB JSON to regular JSON
-            item_json = mongodb_to_json(image)
+    # Convert DynamoDB JSON to regular JSON
+    item_json = mongodb_to_json(image)
 
-            # Format the message as a score card
-            message = format_score_card(item_json)
-
-            try:
-                producer.send(topic_arn, message)
-            except Exception as e:
-                print(f"Error sending Kafka notification: {e}")
-                raise
+    # Format the message as a score card
+    message = format_score_card(item_json)
+    print(message)
+    try:
+        producer.send(topic_arn, message.encode())
+    except Exception as e:
+        print(f"Error sending Kafka notification: {e}")
+        raise
 
     return {
         'statusCode': 200,

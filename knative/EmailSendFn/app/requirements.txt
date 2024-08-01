@@ -1,0 +1,9 @@
+fastapi
+httptools
+pip-chill
+python-dotenv
+uvloop
+watchfiles
+websockets
+pymongo
+requests

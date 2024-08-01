@@ -1,0 +1,27 @@
+{
+   
+    "payload": {
+        "before": null,
+        "after": "{\"_id\": {\"$oid\": \"66a279b8f98a9d0379570575\"},\"email\": \"rojla@gmail.com\",\"score\": 0,\"result\": \"failed\",\"details\": [{\"question\": \"What is the colour of the car in the book?\",\"user_answer\": \"Green\",\"correct_answer\": \"Yellow\",\"is_correct\": false}]}",
+        "updateDescription": null,
+        "source": {
+            "version": "2.7.0.Final",
+            "connector": "mongodb",
+            "name": "email-topic",
+            "ts_ms": 1721924024000,
+            "snapshot": "false",
+            "db": "exams",
+            "sequence": null,
+            "ts_us": 1721924024000000,
+            "ts_ns": 1721924024000000000,
+            "collection": "score",
+            "ord": 1,
+            "lsid": null,
+            "txnNumber": null,
+            "wallTime": null
+        },
+        "op": "c",
+        "ts_ms": 1721924024568,
+        "transaction": null
+    }
+}

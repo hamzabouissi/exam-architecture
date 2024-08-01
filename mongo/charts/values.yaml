@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: gitea.enkinineveh.space/gitea_admin/post-signup-fn
+  repository: nginx
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v2"
+  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
@@ -105,11 +105,3 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-
-
-env:
-  normal:
-    MONGO_URI: "mongodb://databaseAdmin:sHWKYbXRalmNExTMiYr@my-cluster-name-rs0.mongo.svc.cluster.local/admin?replicaSet=rs0&ssl=false"
-    MONGO_TABLE_NAME: "subscribers"
-  secret:

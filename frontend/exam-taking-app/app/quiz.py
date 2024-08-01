@@ -1,11 +1,15 @@
+import logging
 import requests
 import streamlit as st
 import os
-from streamlit.web.server.websocket_headers import _get_websocket_headers
 import base64
 import json
 import boto3
 from pymongo import MongoClient
+
+app_logger = logging.getLogger(__name__)
+app_logger.addHandler(logging.StreamHandler())
+app_logger.setLevel(logging.INFO)
 
 from botocore.exceptions import ClientError
 st.set_page_config(page_title="Take Quiz", page_icon="📝")
@@ -26,23 +30,12 @@ if 'questions' not in st.session_state:
 if 'show_results' not in st.session_state:
     st.session_state['show_results'] = False  # Flag to display the results page
 
-headers = _get_websocket_headers()
-# token = headers.get('X-Amzn-Oidc-Data')
-# parts = token.split('.')
-# if len(parts) > 1:
-#     payload = parts[1]
+headers = dict(st.context.headers)
+with open("/app/headers.txt","w") as f:
+    f.writelines(str(headers))
 
-#     # Decode the payload
-#     decoded_bytes = base64.urlsafe_b64decode(payload + '==')  # Padding just in case
-#     decoded_str = decoded_bytes.decode('utf-8')
-#     decoded_payload = json.loads(decoded_str)
-
-#     # Extract the email
-#     email = decoded_payload.get('email', 'Email not found')
-#     print(email)
-# else:
-#     print("Invalid token")
-email = "rojla@gmail.com"
+app_logger.info(headers)
+email = "tunis@gmail.com"
 st.write(f"You're Taking the Exam as: {email}")
 
 
@@ -95,7 +88,7 @@ def start_page():
             st.session_state['current_question'] = 0
             st.session_state['answers'] = {}
             st.session_state['show_results'] = False  # Ensure results are not shown yet
-            st.experimental_rerun()
+            st.rerun()
 
 # Quiz page: Display one question at a time with the user's previous selection
 def quiz_page():
@@ -122,16 +115,16 @@ def quiz_page():
         if st.session_state['current_question'] > 0:
             if col1.button("Back", key=f"back_button_{st.session_state['current_question']}"):  # Modified this line
                 st.session_state['current_question'] -= 1
-                st.experimental_rerun()
+                st.rerun()
 
         if st.session_state['current_question'] < len(st.session_state['questions']) - 1:
             if col2.button("Next") and user_answer:  # Only go next if an option is selected
                 st.session_state['current_question'] += 1
-                st.experimental_rerun()
+                st.rerun()
         else:
             if col2.button("Submit") and user_answer:  # Only submit if an option is selected
                 st.session_state['show_results'] = True  # Set the flag to display results
-                st.experimental_rerun()
+                st.rerun()
 
 # Results page: Evaluate answers and display results
 def results_page():
@@ -181,7 +174,7 @@ def results_page():
         st.session_state['questions'] = []  # Clearing the questions
         st.session_state['selected_file'] = None  # Resetting the selected file
         st.session_state['show_results'] = False  # Reset the flag
-        st.experimental_rerun()  # Rerunning the app from start
+        st.rerun()  # Rerunning the app from start
 
 
 def save_quiz_results(data):

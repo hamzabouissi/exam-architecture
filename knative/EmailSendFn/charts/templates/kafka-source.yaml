@@ -1,16 +1,16 @@
 apiVersion: sources.knative.dev/v1beta1
 kind: KafkaSource
 metadata:
-  name: kafka-source
+  name: email-source
 spec:
   consumerGroup: kafka-group
   bootstrapServers:
-    - kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+    - {{ .Values.env.normal.BOOTSTRAP_SERVER }}
   topics:
-    - exam-generator-topic
+    - {{ .Values.env.normal.TOPIC_ARN }}
   consumers: 2
   sink:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: event-display
+      name: {{ include "charts.fullname" . }}

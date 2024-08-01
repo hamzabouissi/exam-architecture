@@ -25,17 +25,31 @@ releases:
   
   - name: exam-generation-frontend
     chart: ./frontend/exam-generation-app/charts
-    namespace: "exam-frontend"
+    namespace: "exam"
 
   - name: exam-taking-frontend
     chart: ./frontend/exam-taking-app/charts
-    namespace: "exam-frontend"
+    namespace: "exam"
 
   - name: exam-generation-fn
     chart: ./knative/ExamGenFn/charts
+    namespace: "exam"
 
   - name: exam-taking-fn
     chart: ./knative/ExamTakeFn/charts
+    namespace: "exam"
 
-  # - name: scylladb-trigger-fn
-  #   chart: ./frontend/ScyllaDbTriggerFn/charts
+  - name: mongo-trigger-fn
+    chart: ./knative/MongoTriggerFn/charts
+    namespace: "exam"
+  
+  - name: email-fn
+    chart: ./knative/EmailSendFn/charts
+    namespace: "exam"
+
+
+  - name: post-signup-fn
+    chart: ./knative/PostSignUpFn/charts
+    namespace: "exam"
+  
+

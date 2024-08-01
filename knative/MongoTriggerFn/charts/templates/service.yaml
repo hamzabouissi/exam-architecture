@@ -2,7 +2,7 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: {{ include "charts.fullname" . }}
-  namespace: default
+  namespace: exam
   labels:
     networking.knative.dev/visibility: cluster-local
 spec:
@@ -10,22 +10,9 @@ spec:
     spec:
       containers:
         - image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          env: {{ include "helpers.list-normal-variables" . | nindent 12}}
           ports:
             - containerPort: 80
-          env:
-            - name: BUCKET_NAME
-              value: exams
-            - name: KAFKA_BOOTSTRAP_SERVER
-              value: kafka-cluster-kafka-bootstrap.strimzi.svc:9092
-            - name: TOPIC_ARN
-              value: email-topic
-            - name: AWS_ACCESS_KEY_ID
-              value: minio
-            - name: AWS_SECRET_ACCESS_KEY
-              value: minio123
-            - name: AWS_ENDPOINT_URL_S3
-              value: http://minions-hl.minio-tenant:9000
-          
           readinessProbe:
             httpGet:
               port: 80 # you can also check on a different port than the containerPort (traffic-port)

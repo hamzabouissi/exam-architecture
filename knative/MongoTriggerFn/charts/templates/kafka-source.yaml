@@ -1,16 +1,17 @@
 apiVersion: sources.knative.dev/v1beta1
 kind: KafkaSource
 metadata:
-  name: kafka-source
+  name: mongo-source
 spec:
   consumerGroup: kafka-group
   bootstrapServers:
-    - kafka-cluster-kafka-bootstrap.strimzi.svc:9092
+    - {{ .Values.env.normal.KAFKA_BOOTSTRAP_SERVER }}
   topics:
-    - email-topic.exams.score
+    - {{ .Values.env.normal.SOURCE_TOPIC_ARN }}
   consumers: 2
+
   sink:
     ref:
       apiVersion: serving.knative.dev/v1
       kind: Service
-      name: exam-gen-fn
+      name: {{ include "charts.fullname" . }}
