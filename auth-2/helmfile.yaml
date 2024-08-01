@@ -1,0 +1,23 @@
+helmDefaults:
+  createNamespace: false
+releases:
+  - name: hydra
+    chart: ory/hydra
+    namespace: exam
+    values:
+      - hydra/hydra-values.yaml
+  - name: kratos
+    chart: ory/kratos
+    namespace: exam
+    values:
+      - kratos/kratos-values.yaml
+  - name: kratos-ui
+    chart: ./kratos-ui-node/charts
+    namespace: exam
+  - name: oathkeeper
+    chart: ory/oathkeeper
+    namespace: exam
+    values:
+      - oathkeeper/values.yaml
+    needs:
+      - kratos
