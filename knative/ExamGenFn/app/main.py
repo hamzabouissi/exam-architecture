@@ -124,9 +124,9 @@ def main(event, context):
     # Write the JSON data to the in-memory stream
     questions = [
         {
-            "question": "What is the colour of the car in the book?",
-            "options": ["Blue", "Green", "Yellow", "Grey"],
-            "correct_answer": "Yellow",
+            "question": "Which country of those countries located in balkans ?",
+            "options":  ["Romania", "Germany", "Croatia", "Czech"],
+            "correct_answer": "Romania",
         },
         {
             "question": "Where Tunisia is located?",

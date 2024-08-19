@@ -10,7 +10,7 @@
 # For example:
 #
 # .. code-block:: yaml
-#
+#buckets
 #    name: myminio-env-configuration
 #    accessKey: minio
 #    secretKey: minio123

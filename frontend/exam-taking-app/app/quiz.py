@@ -7,10 +7,6 @@ import json
 import boto3
 from pymongo import MongoClient
 
-app_logger = logging.getLogger(__name__)
-app_logger.addHandler(logging.StreamHandler())
-app_logger.setLevel(logging.INFO)
-
 from botocore.exceptions import ClientError
 st.set_page_config(page_title="Take Quiz", page_icon="📝")
 # URL of the API Gateway
@@ -31,11 +27,7 @@ if 'show_results' not in st.session_state:
     st.session_state['show_results'] = False  # Flag to display the results page
 
 headers = dict(st.context.headers)
-with open("/app/headers.txt","w") as f:
-    f.writelines(str(headers))
-
-app_logger.info(headers)
-email = "tunis@gmail.com"
+email = "hamza@gmail.com"
 st.write(f"You're Taking the Exam as: {email}")
 
 

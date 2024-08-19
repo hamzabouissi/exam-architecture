@@ -201,7 +201,7 @@ oathkeeper:
         }],
         "errors":[
           {
-            "handler":"json"
+            "handler":"redirect"
           }
         ]
       },

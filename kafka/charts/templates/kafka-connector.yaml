@@ -11,5 +11,5 @@ spec:
   config:
     mongodb.connection.string: mongodb://databaseAdmin:sHWKYbXRalmNExTMiYr@my-cluster-name-rs0.mongo.svc.cluster.local/admin?replicaSet=rs0&ssl=false
     topic.prefix: "mongo-trigger-topic"
-    # database.include.list: "exams"
-    # collection.include.list: "score"
+    database.include.list: "exams"
+    collection.include.list: "score"

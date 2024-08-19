@@ -203,10 +203,16 @@ kratos:
                 "type":"string",
                 "title":"Phone Number",
                 "format": "tel"
+              },
+              "user_type": {
+                "title":"User Type",
+                "type": "string",
+                "enum": ["student", "educator"]
               }
             },
             "required": [
-              "email"
+              "email",
+              "user_type"
             ],
             "additionalProperties": false
           }
@@ -237,6 +243,7 @@ kratos:
       allowed_return_urls:
         - https://kratos.enkinineveh.space/
         - https://exam-taking-frontend.enkinineveh.space/
+        - https://exam-generate-frontend.enkinineveh.space/
       flows:
         error:
           ui_url: https://kratos.enkinineveh.space/error
@@ -255,8 +262,8 @@ kratos:
             hooks:
               - hook: web_hook
                 config:
-                  url: http://post-signup-fn-charts.default.svc.cluster.local
-                  body: base64://ZnVuY3Rpb24oY3R4KSB7CiAgdHJhaXRzOiB7CiAgICBlbWFpbDogY3R4LmlkZW50aXR5LnRyYWl0cy5lbWFpbAogIH0KfQ==
+                  url: http://post-signup-fn-charts.exam.svc.cluster.local
+                  body: base64://ZnVuY3Rpb24oY3R4KQ0KaWYgY3R4LmlkZW50aXR5LnRyYWl0cy51c2VyX3R5cGUgPT0gInN0dWRlbnQiIHRoZW4NCiAgZXJyb3IgImNhbmNlbCINCmVsc2UNCiAgew0KICAgICJ0cmFpdHMiOiB7DQogICAgICAiZW1haWwiOiBjdHguaWRlbnRpdHkudHJhaXRzLmVtYWlsDQogICAgfQ0KICB9
                   method: "POST"
                   can_interrupt: false
                   emit_analytics_event: false
@@ -296,7 +303,7 @@ kratos:
       default_schema_id: default
       schemas:
         - id: default
-          url: base64://ew0KICAiJGlkIjogImh0dHBzOi8vc2NoZW1hcy5vcnkuc2gvcHJlc2V0cy9rcmF0b3MvaWRlbnRpdHkuZW1haWwuc2NoZW1hLmpzb24iLA0KICAiJHNjaGVtYSI6ICJodHRwOi8vanNvbi1zY2hlbWEub3JnL2RyYWZ0LTA3L3NjaGVtYSMiLA0KICAidGl0bGUiOiAiUGVyc29uIiwNCiAgInR5cGUiOiAib2JqZWN0IiwNCiAgInByb3BlcnRpZXMiOiB7DQogICAgInRyYWl0cyI6IHsNCiAgICAgICJ0eXBlIjogIm9iamVjdCIsDQogICAgICAicHJvcGVydGllcyI6IHsNCiAgICAgICAgImVtYWlsIjogew0KICAgICAgICAgICJ0eXBlIjogInN0cmluZyIsDQogICAgICAgICAgImZvcm1hdCI6ICJlbWFpbCIsDQogICAgICAgICAgInRpdGxlIjogIkUtTWFpbCIsDQogICAgICAgICAgIm9yeS5zaC9rcmF0b3MiOiB7DQogICAgICAgICAgICAiY3JlZGVudGlhbHMiOiB7DQogICAgICAgICAgICAgICJwYXNzd29yZCI6IHsNCiAgICAgICAgICAgICAgICAiaWRlbnRpZmllciI6IHRydWUNCiAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfSwNCiAgICAgICAgICAgICJyZWNvdmVyeSI6IHsNCiAgICAgICAgICAgICAgInZpYSI6ICJlbWFpbCINCiAgICAgICAgICAgIH0sDQogICAgICAgICAgICAidmVyaWZpY2F0aW9uIjogew0KICAgICAgICAgICAgICAidmlhIjogImVtYWlsIg0KICAgICAgICAgICAgfQ0KICAgICAgICAgIH0NCiAgICAgICAgfSwNCiAgICAgICAgImZ1bGxuYW1lIjp7DQogICAgICAgICAgInR5cGUiOiJzdHJpbmciLA0KICAgICAgICAgICJ0aXRsZSI6ICJGdWxsIE5hbWUiDQogICAgICAgIH0sDQogICAgICAgICJwaG9uZV9udW1iZXIiOnsNCiAgICAgICAgICAidHlwZSI6Im51bWJlciIsDQogICAgICAgICAgInRpdGxlIjoiUGhvbmUgTnVtYmVyIg0KICAgICAgICB9DQogICAgICB9LA0KICAgICAgInJlcXVpcmVkIjogWw0KICAgICAgICAiZW1haWwiLA0KICAgICAgICAiZnVsbG5hbWUiLA0KICAgICAgICAicGhvbmVfbnVtYmVyIg0KICAgICAgXSwNCiAgICAgICJhZGRpdGlvbmFsUHJvcGVydGllcyI6IGZhbHNlDQogICAgfQ0KICB9DQp9DQo=
+          url: base64://ew0KICAiJGlkIjogImh0dHBzOi8vc2NoZW1hcy5vcnkuc2gvcHJlc2V0cy9rcmF0b3MvaWRlbnRpdHkuZW1haWwuc2NoZW1hLmpzb24iLA0KICAiJHNjaGVtYSI6ICJodHRwOi8vanNvbi1zY2hlbWEub3JnL2RyYWZ0LTA3L3NjaGVtYSMiLA0KICAidGl0bGUiOiAiUGVyc29uIiwNCiAgInR5cGUiOiAib2JqZWN0IiwNCiAgInByb3BlcnRpZXMiOiB7DQogICAgInRyYWl0cyI6IHsNCiAgICAgICJ0eXBlIjogIm9iamVjdCIsDQogICAgICAicHJvcGVydGllcyI6IHsNCiAgICAgICAgImVtYWlsIjogew0KICAgICAgICAgICJ0eXBlIjogInN0cmluZyIsDQogICAgICAgICAgImZvcm1hdCI6ICJlbWFpbCIsDQogICAgICAgICAgInRpdGxlIjogIkUtTWFpbCIsDQogICAgICAgICAgIm9yeS5zaC9rcmF0b3MiOiB7DQogICAgICAgICAgICAiY3JlZGVudGlhbHMiOiB7DQogICAgICAgICAgICAgICJwYXNzd29yZCI6IHsNCiAgICAgICAgICAgICAgICAiaWRlbnRpZmllciI6IHRydWUNCiAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgfSwNCiAgICAgICAgICAgICJyZWNvdmVyeSI6IHsNCiAgICAgICAgICAgICAgInZpYSI6ICJlbWFpbCINCiAgICAgICAgICAgIH0sDQogICAgICAgICAgICAidmVyaWZpY2F0aW9uIjogew0KICAgICAgICAgICAgICAidmlhIjogImVtYWlsIg0KICAgICAgICAgICAgfQ0KICAgICAgICAgIH0NCiAgICAgICAgfSwNCiAgICAgICAgImZ1bGxuYW1lIjp7DQogICAgICAgICAgInR5cGUiOiJzdHJpbmciLA0KICAgICAgICAgICJ0aXRsZSI6ICJGdWxsIE5hbWUiDQogICAgICAgIH0sDQogICAgICAgICJwaG9uZV9udW1iZXIiOnsNCiAgICAgICAgICAidHlwZSI6Im51bWJlciIsDQogICAgICAgICAgInRpdGxlIjoiUGhvbmUgTnVtYmVyIg0KICAgICAgICB9LA0KICAgICAgICAidXNlcl90eXBlIjogew0KICAgICAgICAgICJ0aXRsZSI6IlVzZXIgVHlwZSIsDQogICAgICAgICAgInR5cGUiOiAic3RyaW5nIiwNCiAgICAgICAgICAiZW51bSI6IFsic3R1ZGVudCIsICJlZHVjYXRvciJdLCANCiAgICAgICAgICAiZGVmYXVsdCI6ICJzdHVkZW50Ig0KICAgICAgICB9DQogICAgICB9LA0KICAgICAgInJlcXVpcmVkIjogWw0KICAgICAgICAiZW1haWwiLA0KICAgICAgICAiZnVsbG5hbWUiLA0KICAgICAgICAicGhvbmVfbnVtYmVyIiwidXNlcl90eXBlIg0KICAgICAgXSwNCiAgICAgICJhZGRpdGlvbmFsUHJvcGVydGllcyI6IGZhbHNlDQogICAgfQ0KICB9DQp9
     oauth2_provider:
       url: http://hydra-admin.auth:4445
 ## -- Configuration options for the k8s deployment

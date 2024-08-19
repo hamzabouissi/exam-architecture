@@ -8,7 +8,7 @@ image:
   repository: gitea.enkinineveh.space/gitea_admin/exam-gen-fn
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v4"
+  tag: "v6"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -107,8 +107,7 @@ tolerations: []
 
 affinity: {}
 
-secret:
-  name: exam-gen-fn-secret
+
 
 env:
   normal:

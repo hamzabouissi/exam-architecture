@@ -17,8 +17,6 @@ def health():
 @app.post("/",status_code=200)
 async def intercept_event(request:Request):
     event = await request.json()
-    print(event)
-    LOG.info(event)
     handler(event,{})
     return "good"
     

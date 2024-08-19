@@ -1,6 +1,10 @@
-# repositories:
-#   - name: minio-operator
-#     url: https://operator.min.io
+repositories:
+  - name: minio-operator
+    url: https://operator.min.io
+  - name: kafka-opertator
+    url: https://strimzi.io/charts
+  - name: percona
+    url: https://percona.github.io/percona-helm-charts/
 releases:
   # - name: minio-operator
   #   chart: minio-operator/operator
@@ -20,8 +24,18 @@ releases:
   #         - "-f"
   #         - "./jobs.yaml"
 
+  # - name: kafka-operator
+  #   chart: kafka-operator/strimzi-kafka-operator
+  #   values:
+  #     - ./kafka/kafka-values.yaml
   # - name: kafka
   #   chart: ./kafka/charts
+
+  # - name: knative-core
+  #   chart: ./knative/core
+
+  # - name: percona-operator
+  #   chart: percona/psmdb-operator
   
   - name: exam-generation-frontend
     chart: ./frontend/exam-generation-app/charts
@@ -46,7 +60,6 @@ releases:
   - name: email-fn
     chart: ./knative/EmailSendFn/charts
     namespace: "exam"
-
 
   - name: post-signup-fn
     chart: ./knative/PostSignUpFn/charts
